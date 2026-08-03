@@ -1,0 +1,9 @@
+# Requires `docker build -t voptrade:vopai -f docker/Dockerfile.vopai .` to be built first.
+ARG sourceimage=voptrade
+ARG sourcetag=vopai
+FROM ${sourceimage}:${sourcetag}
+
+# Install dependencies
+COPY requirements-vopai.txt requirements-vopai-rl.txt /voptrade/
+
+RUN pip install -r requirements-vopai-rl.txt --user --no-cache-dir

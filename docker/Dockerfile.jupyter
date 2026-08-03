@@ -1,0 +1,9 @@
+# Requires `docker build -t voptrade:plot -f docker/Dockerfile.plot .` to be built first.
+FROM voptrade:plot
+
+
+# Pin prompt-toolkit to avoid questionary version conflict
+RUN pip install jupyterlab "prompt-toolkit<=3.0.36" jupyter-client --user --no-cache-dir
+
+# Empty the ENTRYPOINT to allow all commands
+ENTRYPOINT []

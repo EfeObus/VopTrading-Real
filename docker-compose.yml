@@ -1,0 +1,31 @@
+---
+services:
+  voptrade:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    # # Enable GPU Image and GPU Resources (only relevant for vopAI)
+    # # Make sure to uncomment the whole deploy section
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    restart: unless-stopped
+    container_name: voptrade
+    volumes:
+      - "./user_data:/voptrade/user_data"
+    # Expose api on port 8080 (localhost only)
+    # Please read the https://www.freqtrade.io/en/stable/rest-api/ documentation
+    # for more information.
+    ports:
+      - "127.0.0.1:8080:8080"
+    # Default command used when running `docker compose up`
+    command: >
+      trade
+      --logfile /voptrade/user_data/logs/voptrade.log
+      --db-url sqlite:////voptrade/user_data/tradesv3.sqlite
+      --config /voptrade/user_data/config.json
+      --strategy SampleStrategy

@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools >= 64.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voptrade-client"
+dynamic = ["version"]
+
+authors = [
+  {name = "Vop Trade"},
+]
+
+description = "Vop Trade - Client scripts"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "GPLv3"}
+# license = "GPLv3"
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: MacOS",
+    "Operating System :: Unix",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+
+dependencies = [
+  'requests >= 2.26.0',
+  'python-rapidjson >= 1.0',
+]
+
+
+[project.urls]
+Homepage = "https://github.com/EfeObus/VopTrading-Real"
+"Bug Tracker" = "https://github.com/EfeObus/VopTrading-Real/issues"
+
+
+[project.scripts]
+voptrade-client = "voptrade_client.ft_client:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["voptrade_client*"]
+exclude = ["tests", "tests.*"]
+namespaces = true
+
+[tool.setuptools.dynamic]
+version = {attr = "voptrade_client.__version__"}

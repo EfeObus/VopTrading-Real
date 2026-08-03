@@ -1,0 +1,38 @@
+---
+services:
+  voptrade:
+    # No single `docker compose build` builds this image - it's a 3-stage
+    # chain (base -> vopai -> vopai_rl). Build locally first:
+    #   docker build -t voptrade:latest .
+    #   docker build --build-arg sourceimage=voptrade --build-arg sourcetag=latest \
+    #     -t voptrade:vopai -f docker/Dockerfile.vopai .
+    #   docker build --build-arg sourceimage=voptrade --build-arg sourcetag=vopai \
+    #     -t voptrade:vopai_rl -f docker/Dockerfile.vopai_rl .
+    # then: docker compose -f docker/docker-compose-vopai.yml up
+    image: voptrade:vopai_rl
+    # # Enable GPU Image and GPU Resources
+    # # Make sure to uncomment the whole deploy section
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+    restart: unless-stopped
+    container_name: voptrade
+    volumes:
+      - "./user_data:/voptrade/user_data"
+    # Expose api on port 8080 (localhost only)
+    # Please read the https://www.freqtrade.io/en/stable/rest-api/ documentation
+    # for more information.
+    ports:
+      - "127.0.0.1:8080:8080"
+    # Default command used when running `docker compose up`
+    command: >
+      trade
+      --logfile /voptrade/user_data/logs/voptrade.log
+      --db-url sqlite:////voptrade/user_data/tradesv3.sqlite
+      --config /voptrade/user_data/config.json
+      --vopaimodel XGBoostRegressor
+      --strategy VopaiExampleStrategy
