@@ -17,11 +17,12 @@ services:
     container_name: voptrade
     volumes:
       - "./user_data:/voptrade/user_data"
-    # Expose api on port 8080 (localhost only)
+    # Expose api on port 8091 (localhost only) -- 8080-8086 are taken by the
+    # pseudomarkets services in the VopTrading workspace.
     # Please read the https://www.freqtrade.io/en/stable/rest-api/ documentation
     # for more information.
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:8091:8080"
     # Default command used when running `docker compose up`
     command: >
       trade

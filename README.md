@@ -17,6 +17,10 @@ expect.
 We strongly recommend you to have coding and Python knowledge. Do not
 hesitate to read the source code and understand the mechanism of this bot.
 
+## Platform integration
+
+This instance runs in `dry_run: true` mode as the crypto trading engine behind the [VOP Trading](../VopTrading) paper-trading platform, trading live Kraken prices on its own strategy signals (no real money, no real orders sent to Kraken). It's reached exclusively through its REST API — the platform's `gateway` service proxies `/api/voptrade/*` to it with a static Basic-auth credential and rewrites the prefix to voptrade's own `/api/v1/*`, gated on the caller already having a valid platform session. See [`../VopTrading/docs/ARCHITECTURE.md`](../VopTrading/docs/ARCHITECTURE.md) for the full request flow. This codebase stays GPLv3 and is never imported into the (MIT-licensed) platform code — only talked to over the network, which keeps the two licenses cleanly separated.
+
 ## Supported Exchange marketplaces
 
 Please read the [exchange-specific notes](https://www.freqtrade.io/en/stable/exchanges/) to learn about special configurations that maybe needed for each exchange.
